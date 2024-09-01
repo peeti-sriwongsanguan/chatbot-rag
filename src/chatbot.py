@@ -1,15 +1,14 @@
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain.llms import LlamaCpp
+from langchain_community.llms import LlamaCpp
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
-import yaml
+from src.config import get_config
 
 class RAGChatbot:
     def __init__(self):
         # Load configuration
-        with open('configs/config.yml', 'r') as f:
-            self.config = yaml.safe_load(f)
+        self.config = get_config()
 
         # Initialize embeddings
         self.embeddings = HuggingFaceEmbeddings(model_name=self.config['embeddings_model'])
