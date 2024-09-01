@@ -1,0 +1,21 @@
+name: rag_chatbot_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy>=1.21.2,<2
+  - streamlit
+  - black
+  - pytest
+  - langchain
+  - langchain-community
+  - langchain-core
+  - sentence-transformers
+  - python-dotenv
+  - pyyaml
+  - pip
+  - pip:
+    - langchain-huggingface
+    - llama-cpp-python==0.2.90
+    - faiss-cpu==1.8.0.post1

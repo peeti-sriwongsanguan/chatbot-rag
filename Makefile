@@ -2,19 +2,22 @@ CONDA_ENV_NAME = rag_chatbot_env
 CONDA_ACTIVATE = source $$(conda info --base)/etc/profile.d/conda.sh ; conda activate
 CONDA_RUN = conda run -n $(CONDA_ENV_NAME)
 
-.PHONY: all create_env install run test clean format create_sample_data create_faiss_index docker-build docker-run
+.PHONY: all create_env install run test clean format create_sample_data create_faiss_index
 
 all: run
 
 create_env:
 	@echo "Creating conda environment $(CONDA_ENV_NAME)..."
-	@conda create -n $(CONDA_ENV_NAME) python=3.9 -y
+	@CONDA_SUBDIR=osx-arm64 conda env create -f environment.yml
 
 install: create_env
-	@echo "Installing dependencies..."
-	@$(CONDA_RUN) pip install -r requirements.txt --upgrade
-	@echo "Installing llama-cpp-python for ARM..."
-	@$(CONDA_RUN) pip install llama-cpp-python --no-cache-dir --force-reinstall --upgrade
+	@echo "Installing additional dependencies..."
+	@$(CONDA_RUN) pip install --upgrade pip
+	@$(CONDA_RUN) pip install "cmake>=3.21" --upgrade
+	@echo "Installing llama-cpp-python with OpenBLAS support for Mac..."
+	@$(CONDA_RUN) bash -c 'CMAKE_ARGS="-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=OpenBLAS" pip install --upgrade --force-reinstall llama-cpp-python==0.2.90 --no-cache-dir'
+	@echo "Installing faiss-cpu..."
+	@$(CONDA_RUN) pip install faiss-cpu==1.8.0.post1 --no-cache-dir
 
 create_sample_data: install
 	@echo "Creating sample data..."
@@ -26,11 +29,11 @@ create_faiss_index: create_sample_data
 
 run: create_faiss_index
 	@echo "Running Streamlit app..."
-	@$(CONDA_RUN) python -m streamlit run app.py
+	@$(CONDA_RUN) streamlit run app.py
 
 test:
 	@echo "Running tests..."
-	@$(CONDA_RUN) python -m pytest tests/
+	@$(CONDA_RUN) pytest tests/
 
 format:
 	@echo "Formatting code..."
@@ -39,11 +42,3 @@ format:
 clean:
 	@echo "Removing conda environment..."
 	@conda env remove -n $(CONDA_ENV_NAME) -y
-
-docker-build:
-	@echo "Building Docker image..."
-	@docker build -t rag-chatbot .
-
-docker-run:
-	@echo "Running Docker container..."
-	@docker run -p 8501:8501 rag-chatbot

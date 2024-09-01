@@ -1,14 +1,17 @@
+# Model paths
+llama_model_path: ~/Documents/huggingface-models/llama-2-7b.Q4_K_M.gguf
 # Embeddings
-embeddings_model: "all-MiniLM-L6-v2"
+embeddings_model: sentence-transformers/all-MiniLM-L6-v2
 
 # FAISS
-faiss_index_path: "data/processed/faiss_index"
+faiss_index_path: data/processed/faiss_index
 
 # Llama model
-llama_model_path: "models/llama_model.bin"
+#llama_model_path: "models/llama_model.bin"
 llama_n_ctx: 2048
-llama_n_batch: 8
+llama_n_batch: 512
 llama_verbose: true
 
 # Streamlit
 streamlit_title: "RAG Chatbot with Llama CPP"
+

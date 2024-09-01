@@ -1,9 +1,3 @@
-streamlit
-langchain
-langchain-community
-faiss-cpu
-sentence-transformers
-pytest
-black
-python-dotenv
-pyyaml
+langchain-huggingface
+llama-cpp-python==0.2.90
+faiss-cpu==1.8.0.post1
