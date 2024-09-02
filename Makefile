@@ -6,24 +6,16 @@ CONDA_RUN = conda run -n $(CONDA_ENV_NAME)
 
 all: run
 
-create_or_update_env:
-	@echo "Checking if conda environment $(CONDA_ENV_NAME) exists..."
-	@if conda env list | grep -q "/$(CONDA_ENV_NAME)"; then \
-		echo "Updating existing conda environment $(CONDA_ENV_NAME)..."; \
-		CONDA_SUBDIR=osx-arm64 conda env update -f environment.yml; \
-	else \
-		echo "Creating conda environment $(CONDA_ENV_NAME)..."; \
-		CONDA_SUBDIR=osx-arm64 conda env create -f environment.yml; \
-	fi
+create_env:
+	@echo "Creating conda environment $(CONDA_ENV_NAME)..."
+	CONDA_SUBDIR=osx-arm64 conda env create -f environment.yml
 
 install: create_env
 	@echo "Installing additional dependencies..."
 	@$(CONDA_RUN) pip install --upgrade pip
 	@$(CONDA_RUN) pip install "cmake>=3.21" --upgrade
-	@echo "Installing llama-cpp-python with OpenBLAS support for Mac..."
-	@$(CONDA_RUN) bash -c 'CMAKE_ARGS="-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=OpenBLAS" pip install --upgrade --force-reinstall llama-cpp-python==0.2.90 --no-cache-dir'
-	@echo "Installing faiss-cpu..."
-	@$(CONDA_RUN) pip install faiss-cpu==1.8.0.post1 --no-cache-dir
+	@$(CONDA_RUN) pip install faiss-cpu --no-cache-dir
+	@$(CONDA_RUN) bash -c 'CMAKE_ARGS="-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=OpenBLAS" pip install --upgrade --force-reinstall llama-cpp-python --no-cache-dir'
 
 create_sample_data: install
 	@echo "Creating sample data..."
@@ -37,9 +29,9 @@ run: create_faiss_index
 	@echo "Running Streamlit app..."
 	@$(CONDA_RUN) streamlit run app.py
 
-test:
+test: create_env
 	@echo "Running tests..."
-	@$(CONDA_RUN) pytest tests/
+	@$(CONDA_RUN) PYTHONPATH=$$PYTHONPATH:$$(pwd) pytest tests/
 
 format:
 	@echo "Formatting code..."
