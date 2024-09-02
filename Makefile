@@ -6,9 +6,15 @@ CONDA_RUN = conda run -n $(CONDA_ENV_NAME)
 
 all: run
 
-create_env:
-	@echo "Creating conda environment $(CONDA_ENV_NAME)..."
-	CONDA_SUBDIR=osx-arm64 conda env create -f environment.yml
+create_or_update_env:
+	@echo "Checking if conda environment $(CONDA_ENV_NAME) exists..."
+	@if conda env list | grep -q "/$(CONDA_ENV_NAME)"; then \
+		echo "Updating existing conda environment $(CONDA_ENV_NAME)..."; \
+		CONDA_SUBDIR=osx-arm64 conda env update -f environment.yml; \
+	else \
+		echo "Creating conda environment $(CONDA_ENV_NAME)..."; \
+		CONDA_SUBDIR=osx-arm64 conda env create -f environment.yml; \
+	fi
 
 install: create_env
 	@echo "Installing additional dependencies..."
