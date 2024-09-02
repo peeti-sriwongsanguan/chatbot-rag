@@ -26,3 +26,11 @@ rag-chatbot/
 - macOS with Apple Silicon (M-series) chip
 - Miniconda or Anaconda installed
 - Xcode Command Line Tools
+
+
+## Acknowledgments
+
+- LangChain for providing the framework for building the RAG system
+- FAISS for efficient similarity search
+- Llama-cpp for the language model implementation
+- Streamlit for the user interface
