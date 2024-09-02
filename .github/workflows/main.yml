@@ -45,7 +45,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+        aws-region: us-west-2
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -75,3 +75,7 @@ jobs:
         service: rag-chatbot-service
         cluster: rag-chatbot-cluster
         wait-for-service-stability: true
+
+
+
+
