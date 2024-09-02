@@ -11,26 +11,26 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Conda
+
+    - name: Set up Miniconda
       uses: conda-incubator/setup-miniconda@v2
       with:
-        auto-update-conda: true
-        python-version: 3.9
+        miniconda-version: "latest"
+        activate-environment: rag_chatbot_env
+        environment-file: environment.yml
+        auto-activate-base: false
+
     - name: Install dependencies
       shell: bash -l {0}
       run: |
-        conda activate base
+        conda info
+        conda list
         make install
+
     - name: Run tests
       shell: bash -l {0}
       run: |
-        conda activate base
         make test
-    - name: Check formatting
-      shell: bash -l {0}
-      run: |
-        conda activate base
-        make format
 
   deploy:
     needs: test
