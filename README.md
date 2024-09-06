@@ -27,6 +27,47 @@ rag-chatbot/
 - Miniconda or Anaconda installed
 - Xcode Command Line Tools
 
+## Setup
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/peeti-sriwongsanguan/rag-chatbot.git
+   cd rag-chatbot
+   ```
+
+2. Create and activate the conda environment:
+   ```
+   make create_or_update_env
+   conda activate rag_chatbot_env
+   ```
+
+3. Install dependencies:
+   ```
+   make install
+   ```
+
+## Usage
+
+To run the chatbot locally:
+
+```
+make run
+```
+
+This command will will create sample data and FAISS index, and start the Streamlit app, therefore, you can interact with the chatbot through your web browser.
+
+## Development
+
+- To run tests:
+  ```
+  make test
+  ```
+
+- To format the code:
+  ```
+  make format
+  ```
+
 
 ## Acknowledgments
 
