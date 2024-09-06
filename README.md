@@ -1,6 +1,16 @@
-This project implements a Retrieval-Augmented Generation (RAG) chatbot using LangChain, FAISS, and Llama-cpp. It's designed to run on macOS with Apple Silicon (M-series) chips.
+# Retrieval-Augmented Generation (RAG) chatbot
+
+
+This project implements a Retrieval-Augmented Generation (RAG) chatbot using LangChain, FAISS, Llama-cpp, and Streamlit to create a chatbot experience akin to ChatGPT. It's designed to run on macOS with Apple Silicon (M-series) chips.
+
+The RAG ChatBot sifts through the LangChain and then be transformed into vectors using FAISS (Facebook AI Similarity Search) to pick out the most fitting bits. This process looks for the answer in the stored database. These chosen bits help generate accurate answers using a local language model. 
+
+For pretrained model, I used a small hugging-face model called [llama-2-7b.Q4_K_M](https://huggingface.co/TheBloke/Llama-2-7B-GGUF/blob/main/llama-2-7b.Q4_K_M.gguf) 
+
+![RAG_sample.gif](image%2FRAG_sample.gif)
 
 ## Project Structure
+
 
 ```
 rag-chatbot/
@@ -17,7 +27,6 @@ rag-chatbot/
 ├── Makefile
 ├── Dockerfile
 ├── environment.yml
-├── requirements.txt
 └── README.md
 ```
 
