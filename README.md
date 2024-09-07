@@ -35,6 +35,8 @@ rag-chatbot/
 - macOS with Apple Silicon (M-series) chip
 - Miniconda or Anaconda installed
 - Xcode Command Line Tools
+- Docker (for stability and pushing container images)
+- AWS account (for deployment)
 
 ## Setup
 
